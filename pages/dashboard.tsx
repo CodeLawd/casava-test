@@ -32,9 +32,15 @@ export default function Dashboard() {
   return (
     <>
       <Meta title="Dashboard" />
-      <Box component="main" sx={{ height: "100vh" }} display="flex" justifyContent="center" alignItems="center">
+      <Box
+        component="main"
+        sx={{ height: "100vh", bgcolor: "#000" }}
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+      >
         <Box component="div" textAlign="center">
-          <Typography component="h1" variant="h5" fontWeight="bold" textTransform="capitalize">
+          <Typography component="h1" variant="h5" fontWeight="bold" textTransform="capitalize" color="#fff">
             Welcome {user?.username}{" "}
           </Typography>
           <Button variant="outlined" onClick={handleLogout} sx={{ mt: 5 }}>

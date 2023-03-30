@@ -18,7 +18,7 @@ const Meta: FC<metaProps> = ({ title, keywords, description, image }) => {
       <meta name="description" content={description || "Some random description"} />
       <meta property="og:image" content={image || "https://landalearn.com/meta-img.png"} />
       <meta charSet="utf-8" />
-      <link rel="icon" href="/images/favicon.ico" />
+      <link rel="icon" href="/favicon.ico" />
       <title>{metaTitle}</title>
     </Head>
   );
