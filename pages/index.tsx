@@ -7,6 +7,7 @@ import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { isAuthticated } from "@/utils/isAuthenticated";
+import Meta from "@/components/Meta";
 
 const initialState = {
   email: "",
@@ -50,102 +51,105 @@ export default function Login() {
     }
   };
 
+  // Check if user is already signed in and redirect them to dashboard
   useEffect(() => {
     isAuthticated() && router.replace("/dashboard");
   }, []);
 
   return (
-    <Grid container component="main" sx={{ height: "100vh" }}>
-      <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: "url('/bg.jpg')",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) => (t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900]),
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <Box
+    <>
+      <Meta title="Create Account" />
+      <Grid container component="main" sx={{ height: "100vh" }}>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
           sx={{
-            my: 8,
-            mx: 4,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            backgroundImage: "url('/bg.jpg')",
+            backgroundRepeat: "no-repeat",
+            backgroundColor: (t) => (t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900]),
+            backgroundSize: "cover",
+            backgroundPosition: "center",
           }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Create your account
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              variant="standard"
-              onChange={handleChange}
-              value={formDetails.email}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              variant="standard"
-              onChange={handleChange}
-              value={formDetails.username}
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-              variant="standard"
-              onChange={handleChange}
-              value={formDetails.password}
-            />
+        />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <Box
+            sx={{
+              my: 8,
+              mx: 4,
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar sx={{ m: 1, bgcolor: "#1664C0" }}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
+              Create your account
+            </Typography>
+            <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                variant="standard"
+                onChange={handleChange}
+                value={formDetails.email}
+              />
 
-            <LoadingButton
-              loading={loading}
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2, py: 2 }}
-              disabled={disabled}
-            >
-              Create Account
-            </LoadingButton>
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                id="username"
+                label="Username"
+                name="username"
+                autoComplete="username"
+                variant="standard"
+                onChange={handleChange}
+                value={formDetails.username}
+              />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                variant="standard"
+                onChange={handleChange}
+                value={formDetails.password}
+              />
 
-            <Box>
-              <Link href="/signin" style={{ color: "#1664C0" }}>
-                Already have an account? Sign In
-              </Link>
+              <LoadingButton
+                loading={loading}
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2, py: 1.5 }}
+                disabled={disabled}
+              >
+                Create Account
+              </LoadingButton>
+
+              <Box>
+                <Link href="/signin" style={{ color: "#1664C0" }}>
+                  Already have an account? Sign In
+                </Link>
+              </Box>
             </Box>
           </Box>
-        </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </>
   );
 }
