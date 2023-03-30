@@ -1,3 +1,5 @@
+import { errorPopUp } from "./toastify";
+
 export const isAuthticated = () => {
   if (typeof window === "undefined") {
     return false;
