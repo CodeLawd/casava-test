@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import * as React from "react";
 import { Avatar, CssBaseline, TextField, Paper, Box, Grid, Typography } from "@mui/material";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import axios from "axios";
@@ -6,17 +6,15 @@ import { successPopUp, errorPopUp } from "@/utils/toastify";
 import { LoadingButton } from "@mui/lab";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { isAuthticated } from "@/utils/isAuthenticated";
 
 const initialState = {
   email: "",
-  username: "",
   password: "",
 };
 
-export default function Login() {
-  const [formDetails, setFormDetails] = useState(initialState);
-  const [loading, setLoading] = useState(false);
+export default function SignIn() {
+  const [formDetails, setFormDetails] = React.useState(initialState);
+  const [loading, setLoading] = React.useState(false);
   const router = useRouter();
 
   const handleChange = (e: any) => {
@@ -27,49 +25,33 @@ export default function Login() {
     });
   };
 
-  const { username, email, password } = formDetails;
+  const { email, password } = formDetails;
 
-  // Validate fields
   const regex = new RegExp(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/);
-  const disabled = !username || !email || !password || !regex.test(email);
+  const disabled = !email || !password || !regex.test(email);
 
-  // Handle form submission
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setLoading(true);
 
     try {
-      await axios.post("/api/register", formDetails);
+      const response = await axios.post("/api/signin", formDetails);
+      console.log(response);
+      localStorage.setItem("user", JSON.stringify(response.data.data.user));
+      localStorage.setItem("token", JSON.stringify(response.data.data.token));
       setLoading(false);
       setFormDetails(initialState);
-      successPopUp({ msg: "Account Created Successfully. Proceed to login" });
-      router.push("/signin");
+      successPopUp({ msg: "Login Successful" });
+      router.push("/dashboard");
     } catch (error: any) {
       setLoading(false);
       errorPopUp({ msg: error.response.data.message });
     }
   };
 
-  useEffect(() => {
-    isAuthticated() && router.replace("/dashboard");
-  }, []);
-
   return (
     <Grid container component="main" sx={{ height: "100vh" }}>
       <CssBaseline />
-      <Grid
-        item
-        xs={false}
-        sm={4}
-        md={7}
-        sx={{
-          backgroundImage: "url('/bg.jpg')",
-          backgroundRepeat: "no-repeat",
-          backgroundColor: (t) => (t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900]),
-          backgroundSize: "cover",
-          backgroundPosition: "center",
-        }}
-      />
       <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
         <Box
           sx={{
@@ -84,7 +66,7 @@ export default function Login() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Create your account
+            Login to your account
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 1 }}>
             <TextField
@@ -100,19 +82,7 @@ export default function Login() {
               onChange={handleChange}
               value={formDetails.email}
             />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="username"
-              label="Username"
-              name="username"
-              autoComplete="username"
-              autoFocus
-              variant="standard"
-              onChange={handleChange}
-              value={formDetails.username}
-            />
+
             <TextField
               margin="normal"
               required
@@ -135,17 +105,30 @@ export default function Login() {
               sx={{ mt: 3, mb: 2, py: 2 }}
               disabled={disabled}
             >
-              Create Account
+              Login
             </LoadingButton>
 
             <Box>
-              <Link href="/signin" style={{ color: "#1664C0" }}>
-                Already have an account? Sign In
+              <Link href="/" style={{ color: "#1664C0" }}>
+                Dont have an account? Sign Up
               </Link>
             </Box>
           </Box>
         </Box>
       </Grid>
+      <Grid
+        item
+        xs={false}
+        sm={4}
+        md={7}
+        sx={{
+          backgroundImage: "url(/bg.jpg)",
+          backgroundRepeat: "no-repeat",
+          backgroundColor: (t) => (t.palette.mode === "light" ? t.palette.grey[50] : t.palette.grey[900]),
+          backgroundSize: "cover",
+          backgroundPosition: "bottom",
+        }}
+      />
     </Grid>
   );
 }
