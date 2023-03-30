@@ -2,11 +2,8 @@
 const nextConfig = {
   reactStrictMode: true,
   env: {
-    BASE_URL: process.env.BASE_URL,
-    LANDA_HOME: process.env.LANDA_HOME,
-    LANDA_CAMPUS: process.env.LANDA_CAMPUS,
-    TL_DOMAIN: process.env.TL_DOMAIN,
-    CAPTCHA_KEY: process.env.CAPTCHA_KEY,
+    DATABASE_URL: process.env.DATABASE_URL,
+    SECRET_KEY: process.env.SECRET_KEY,
   },
 };
 
