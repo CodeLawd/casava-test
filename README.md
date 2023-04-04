@@ -63,6 +63,7 @@ To run this project, you will need to add the following environment variables to
 
 - Create an account using your email, username and password
 - Login using your credentials
+- You can't access dashboard unless you are authenicated
 
 
 ## Tech Stack
